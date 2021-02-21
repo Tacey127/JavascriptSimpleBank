@@ -1,10 +1,12 @@
 {
+    //#region cookie
+
 
     function setCookie(cname,cvalue,exdays) {
         var d = new Date();
         d.setTime(d.getTime() + (exdays*24*60*60*1000));
-        var expires = "expires=" + d.toGMTString();
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        var expires = d.toGMTString();
+        document.cookie = cname + "=" + cvalue + ";" +  "expires=" + expires + ";path=/";
       }
 
     function checkCookie() {
@@ -17,7 +19,7 @@
             /*
            user = prompt("Please enter your name:","");
            if (user != "" && user != null) {
-             setCookie("username", user, 30);
+             setCookie("username", user, 2);
            }
            */
         }
@@ -39,24 +41,43 @@
         return "";
       }
 
+      //#endregion
+
+    //#region IO
+    {
+
+        function SubmitPassword() {
+            console.log("SubmitPressed");
+            //document.getElementById("passwordForm");
+              
+            var form = document.getElementById('passwordForm');
+            let password = form.elements['password'];
+            let username = form.elements['username'];
+              
+            Bank.CreateCustomer(username.value, password.value);
+            console.log(Bank._users[0].getId());
+        }
+    }
+
+    //#endregion
 
     class Bank
     {
-        static #users = [];
+        static _users = [];
 
         static CreateCustomer(id, password)
         {
-            this.#users.push(new Customer(id, password));
+            this._users.push(new Customer(id, password));
         }
 
         static CreateAdmin(id, password)
         {
-            this.#users.push(new Admin(id, password));
+            this._users.push(new Admin(id, password));
         }
 
         static login(id, password)
         {
-            this.#users.forEach(element => {
+            this._users.forEach(element => {
                 if(id == element.id && password == element.password)
                 {
                     return true;
@@ -68,13 +89,18 @@
 
     class User{
 
-        #id;
-        #password;
+        _id = "";
+        _password;
 
         constructor(id, password)
         {
-            this.#id = id;
-            this.#password = password;
+            this._id = id;
+            this._password = password;
+        }
+
+        getId()
+        {
+            return this._id;
         }
     }
 
@@ -97,9 +123,9 @@
     }
 
     class Account{
-        #isFrozen = false;
-        #balance = 0;
-        #overdraftLimit = 0;
+        _isFrozen = false;
+        _balance = 0;
+        _overdraftLimit = 0;
 
         static createAccount(balance)
         {
@@ -117,29 +143,29 @@
         {
             if(balance > 0)
             {
-                this.#balance = balance;
+                this._balance = balance;
             }
             else return null;
         }
 
         GetBalance(){
-            return this.#balance;
+            return this._balance;
         }
 
         FreezeAccount(){
-            this.#isFrozen = true;
+            this._isFrozen = true;
         }
 
         Withdraw(amount){
-            if(amount < this.#balance + this.#overdraftLimit)
+            if(amount < this._balance + this._overdraftLimit)
             {
-                this.#balance -= amount;
+                this._balance -= amount;
             }
             return false;
         }
 
         Deposit(amount){
-            this.#balance += amount;
+            this._balance += amount;
         }
         
     }
