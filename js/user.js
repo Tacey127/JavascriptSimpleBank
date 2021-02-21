@@ -53,8 +53,16 @@
             var form = document.getElementById('passwordForm');
             let password = form.elements['password'];
             let username = form.elements['username'];
-              
-            Bank.CreateCustomer(username.value, password.value);
+            let isCustomer = form.elements['admin'];
+
+            if(isCustomer)
+            {
+                Bank.CreateCustomer(username.value, password.value);
+            }
+            else
+            {
+                Bank.CreateAdmin(username.value, password.value);
+            }
             console.log(Bank._users[0].getId());
         }
     }
