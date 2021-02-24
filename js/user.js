@@ -43,11 +43,23 @@
 
       //#endregion
 
-    //#region IO
+    //#region UserCreation
     {
 
-        function SubmitPassword() {
-            console.log("SubmitPressed");
+        function AttemptCreateUser(event)
+        {
+            console.log("a");
+            if(!CreateUser())
+            {   
+                console.log("b");
+                document.getElementById("hiddenRetry").innerHTML = "Please enter username and password";
+            }
+            console.log("c");
+            event.preventDefault();
+        }
+
+
+        function CreateUser() {
             //document.getElementById("passwordForm");
               
             var form = document.getElementById('passwordForm');
@@ -55,16 +67,37 @@
             let username = form.elements['username'];
             let isCustomer = form.elements['admin'];
 
-            if(isCustomer)
+            if(VerifyStringInput(password) && VerifyStringInput(username))
             {
-                Bank.CreateCustomer(username.value, password.value);
+                if(isCustomer)
+                {
+                    Bank.CreateCustomer(username.value, password.value);
+                }
+                else
+                {
+                    Bank.CreateAdmin(username.value, password.value);
+                }
+
+                return true;
             }
-            else
-            {
-                Bank.CreateAdmin(username.value, password.value);
-            }
-            console.log(Bank._users[0].getId());
+            return false;
         }
+
+        function VerifyStringInput(intput)//something basic
+        {
+            if(typeof(input) == 'string')
+            {
+                if(intput.length > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        var form = document.getElementById('passwordForm');
+        form.addEventListener('submit', AttemptCreateUser);
+        
     }
 
     //#endregion
