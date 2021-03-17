@@ -44,6 +44,10 @@
             {   
                 document.getElementById("hiddenRetry").innerHTML = "Please enter username and password";
             }
+            else
+            {
+                showStartScreen();
+            }
             event.preventDefault();
         }
 
@@ -81,23 +85,30 @@
             return false;
         }
 
-        function VerifyStringInput(intput)//something basic
+        function VerifyStringInput(intput)//something basic, non working
         {
-            console.log(input);
-            if(typeof(input) == 'string')
+            //if(typeof(input.value) == 'string')
             {
-                if(intput.length > 0)
-                {
+                //if(intput.length > 0)
+                //{
                     return true;
-                }
+                //}
             }
             return false;
         }
 
-
+        function showStartScreen()
+        {
+            document.getElementById("newUserScreen").hidden = true;
+            document.getElementById("startScreen").hidden = false;
+        }
         
         var form = document.getElementById('newUserForm');
         form.addEventListener('submit', AttemptCreateUser);
+        
+
+        var userBack = document.getElementById('userBackButton');
+        userBack.addEventListener('click', showStartScreen);
         
     }
 
