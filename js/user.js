@@ -1,60 +1,49 @@
 {
-    //#region cookie
 
+    //#region startScreen
 
-    function setCookie(cname,cvalue,exdays) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays*24*60*60*1000));
-        var expires = d.toGMTString();
-        document.cookie = cname + "=" + cvalue + ";" +  "expires=" + expires + ";path=/";
-      }
-
-    function checkCookie() {
-        var user=getCookie("jsBank");
-        if (user != "") {
-
-          alert("js Bank Cookie Exists");
-
-        } else {
-            /*
-           user = prompt("Please enter your name:","");
-           if (user != "" && user != null) {
-             setCookie("username", user, 2);
-           }
-           */
+    {
+        
+        function showLoginScreen()
+        {
+            if(Bank._users.length > 0)
+            {
+                document.getElementById("startScreen").hidden = true;
+                document.getElementById("loginScreen").hidden = false;
+            }
+            else
+            {
+                console.log("No users exist");
+            }
         }
+
+        function showNewUserScreen()
+        {
+
+            document.getElementById("startScreen").hidden = true;
+            document.getElementById("newUserScreen").hidden = false;
+        }
+
+        var loginButton = document.getElementById('StartLoginButton');
+        loginButton.addEventListener('click', showLoginScreen);
+
+        var newUserButton = document.getElementById('StartUserButton');
+        newUserButton.addEventListener('click', showNewUserScreen);
     }
 
-    function getCookie(cname) {
-        var name = cname + "=";
-        var decodedCookie = decodeURIComponent(document.cookie);
-        var ca = decodedCookie.split(';');
-        for(var i = 0; i < ca.length; i++) {
-          var c = ca[i];
-          while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-          }
-          if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-          }
-        }
-        return "";
-      }
 
-      //#endregion
+    //#endregion
 
-    //#region UserCreation
+      //#region NewUserScreen
     {
 
         function AttemptCreateUser(event)
         {
-            console.log("a");
+            console.log("CreateUserAttemptStart");
             if(!CreateUser())
             {   
-                console.log("b");
                 document.getElementById("hiddenRetry").innerHTML = "Please enter username and password";
             }
-            console.log("c");
             event.preventDefault();
         }
 
@@ -62,29 +51,39 @@
         function CreateUser() {
             //document.getElementById("passwordForm");
               
-            var form = document.getElementById('passwordForm');
-            let password = form.elements['password'];
+            var form = document.getElementById('newUserForm');
             let username = form.elements['username'];
+            let password = form.elements['password'];
             let isCustomer = form.elements['admin'];
+
+            console.log("password: " + password.innerHTML);
 
             if(VerifyStringInput(password) && VerifyStringInput(username))
             {
                 if(isCustomer)
                 {
+                    console.log("Customer created");
                     Bank.CreateCustomer(username.value, password.value);
                 }
                 else
-                {
+                {                    
+                    console.log("Admin created");
                     Bank.CreateAdmin(username.value, password.value);
                 }
 
                 return true;
             }
+            else
+            {
+                console.log("User password or username creation failed.");
+            }
+            console.log("User creation failed");
             return false;
         }
 
         function VerifyStringInput(intput)//something basic
         {
+            console.log(input);
             if(typeof(input) == 'string')
             {
                 if(intput.length > 0)
@@ -95,12 +94,16 @@
             return false;
         }
 
-        var form = document.getElementById('passwordForm');
+
+        
+        var form = document.getElementById('newUserForm');
         form.addEventListener('submit', AttemptCreateUser);
         
     }
 
     //#endregion
+
+//#region bank
 
     class Bank
     {
@@ -210,6 +213,6 @@
         }
         
     }
-
+//#endregion
 
 }

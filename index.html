@@ -9,20 +9,55 @@
     
     <body>
         
-        <form id="passwordForm">
-            <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username"><br>
-            <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password"><br>
+        <startScreen id = "startScreen">
+            <button id = "StartLoginButton">Login</button>
+            <button id = "StartUserButton">NewUser</button>
+        </startScreen>
 
-            <input type="radio" id="customer" name="userType" value="customer" checked="checked">
-            <label for="customer">Customer</label><br>
-            <input type="radio" id="admin" name="userType" value="admin">
-            <label for="admin">Admin</label><br>
-            <input type="submit" value="Submit">
-        </form> 
-        <something id = "hiddenRetry" >T</something>
-        
+
+        <!-- 
+
+            <LoginScreen id = "loginScreen" hidden>
+                <form id="passwordForm">
+                    <label for="username">Username:</label><br>
+                    <input type="text" id="username" name="username"><br>
+                    <label for="password">Password:</label><br>
+                    <input type="password" id="password" name="password"><br>
+                    
+                    <input type="radio" id="customer" name="userType" value="customer" checked="checked">
+                    <label for="customer">Customer</label><br>
+                    <input type="radio" id="admin" name="userType" value="admin">
+                    <label for="admin">Admin</label><br>
+                    <input type="submit" value="Submit">
+                </form> 
+                <something id = "hiddenRetry" ></something>
+                
+                <button id = "loginBackButton">Back</button>
+                
+            </LoginScreen>
+        --> 
+            
+        <NewUserScreen id = "newUserScreen" hidden>
+            <form id="newUserForm">
+                <label for="username">Username:</label><br>
+                <input type="text" id="username" name="username"><br>
+                <label for="password">Password:</label><br>
+                <input type="text" id="password" name="password"><br>
+
+                <input type="radio" id="customer" name="userType" value="customer" checked="checked">
+                <label for="customer">Customer</label><br>
+                <input type="radio" id="admin" name="userType" value="admin">
+                <label for="admin">Admin</label><br>
+                <input type="submit" value="Submit">
+            </form> 
+            <something id = "hiddenRetry" ></something>
+
+            <button id = "userBackButton">Back</button>
+
+        </NewUserScreen>
+
+
+
     </body>
     
     <script src= "js/user.js"></script>
