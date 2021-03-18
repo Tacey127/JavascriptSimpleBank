@@ -24,17 +24,37 @@
             document.getElementById("newUserScreen").hidden = false;
         }
 
+        function printUserList()
+        {
+            if(Bank._users.length == 0)
+            {
+                console.log("No users exist");
+            }
+            else
+            {
+                console.log("Users: " + Bank._users.length);
+
+                Bank._users.forEach(element => {
+                    console.log("ID: " + element._id);
+                    console.log("Password: " + element._password);
+                });
+            }
+        }
+
         var loginButton = document.getElementById('StartLoginButton');
         loginButton.addEventListener('click', showLoginScreen);
 
         var newUserButton = document.getElementById('StartUserButton');
         newUserButton.addEventListener('click', showNewUserScreen);
+
+        var printUserListButton = document.getElementById('PrintUserListButton');
+        printUserListButton.addEventListener('click', printUserList);
     }
 
 
     //#endregion
 
-      //#region NewUserScreen
+    //#region NewUserScreen
     {
 
         function AttemptCreateUser(event)
@@ -113,6 +133,44 @@
     }
 
     //#endregion
+
+//#region loginScreen
+
+{
+    function AttemptLogin(event)
+    {
+        if(verifyLogin())
+        {
+            //logged in
+        }
+        else
+        {
+            //login failed
+        }
+        event.preventDefault();
+    }
+    
+    function verifyLogin()
+    {
+        var form = document.getElementById('loginForm');
+        let username = form.elements['username'];
+        let password = form.elements['password'];
+    
+    
+        Bank._users.forEach(element => {
+            if(username.value === element._id && password.value === element.password)
+            {
+                return true;
+            }
+        });
+        return false;
+    }
+
+    var form = document.getElementById('loginForm');
+    form.addEventListener('submit', AttemptLogin);
+}
+
+//#endregion
 
 //#region bank
 
