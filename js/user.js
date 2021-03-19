@@ -139,9 +139,12 @@
 {
     function AttemptLogin(event)
     {
+        console.log("attempting login");
         if(verifyLogin())
         {
-            //logged in
+            console.log("switch to userScreen");
+            document.getElementById("loginScreen").hidden = true;
+            document.getElementById("userScreen").hidden = false;
         }
         else
         {
@@ -152,23 +155,44 @@
     
     function verifyLogin()
     {
+        console.log("verifying login");
         var form = document.getElementById('loginForm');
-        let username = form.elements['username'];
-        let password = form.elements['password'];
-    
-    
-        Bank._users.forEach(element => {
-            if(username.value === element._id && password.value === element.password)
+        let username = form.elements['loginUsername'].value;
+        let password = form.elements['loginPassword'].value;
+        
+        
+        for(let i = 0; i < Bank._users.length; i++)
+        {
+            console.log(Bank._users[i]._id);
+            if((username == Bank._users[i]._id) && (password == Bank._users[i]._password))
             {
+                console.log("login verified");
+                //logged in
                 return true;
             }
-        });
+        }
+        
+        console.log("login failed");
         return false;
+    }
+    
+    function returnToStartScreen()
+    {
+        document.getElementById("loginScreen").hidden = true;
+        document.getElementById("startScreen").hidden = false;
     }
 
     var form = document.getElementById('loginForm');
     form.addEventListener('submit', AttemptLogin);
+
+    var userBack = document.getElementById('loginBackButton');
+    userBack.addEventListener('click', returnToStartScreen);
+
 }
+
+//#endregion
+
+//#region userOverviewScreen
 
 //#endregion
 
